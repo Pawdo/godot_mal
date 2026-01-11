@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+exec $(dirname $0)/bin/${STEP:-stepA_mal}.x86_64 --headless --no-header "${@}"
+

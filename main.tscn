@@ -1,0 +1,83 @@
+[gd_scene load_steps=9 format=3 uid="uid://8b26ndi6dwlr"]
+
+[ext_resource type="Script" uid="uid://6r50x7rx420v" path="res://scripts/main.gd" id="1_0xm2m"]
+[ext_resource type="Script" uid="uid://blflbyliyrcgw" path="res://scripts/terminal_display.gd" id="2_1bvp3"]
+[ext_resource type="Script" uid="uid://dx8fje0jljr14" path="res://scripts/terminal_input.gd" id="2_h2yge"]
+[ext_resource type="Script" uid="uid://kmchp6bt8lws" path="res://scripts/lisp/lisp.gd" id="4_lquwl"]
+[ext_resource type="Script" uid="uid://dyhktednxgggq" path="res://scripts/lisp/rep.gd" id="5_7mycd"]
+[ext_resource type="Script" uid="uid://bahde7b23kpb3" path="res://scripts/lisp/read.gd" id="6_5vw27"]
+[ext_resource type="Script" uid="uid://0ydo0momx0rb" path="res://scripts/lisp/eval.gd" id="7_kek77"]
+[ext_resource type="Script" uid="uid://bm7syftm8ihh4" path="res://scripts/lisp/print.gd" id="8_4c57u"]
+
+[node name="Main" type="Control" node_paths=PackedStringArray("interpreter", "terminal_display", "terminal_input")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_0xm2m")
+interpreter = NodePath("lisp")
+terminal_display = NodePath("MarginContainer/VBoxContainer/TerminalDisplay")
+terminal_input = NodePath("MarginContainer/VBoxContainer/HBoxContainer/TerminalInput")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="TerminalDisplay" type="TextEdit" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+editable = false
+context_menu_enabled = false
+emoji_menu_enabled = false
+shortcut_keys_enabled = false
+drag_and_drop_selection_enabled = false
+virtual_keyboard_enabled = false
+virtual_keyboard_show_on_focus = false
+middle_mouse_paste_enabled = false
+wrap_mode = 1
+autowrap_mode = 2
+tab_input_mode = false
+scroll_fit_content_width = true
+script = ExtResource("2_1bvp3")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "user> "
+
+[node name="TerminalInput" type="LineEdit" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 3
+keep_editing_on_text_submit = true
+script = ExtResource("2_h2yge")
+
+[node name="lisp" type="Node" parent="."]
+script = ExtResource("4_lquwl")
+
+[node name="rep" type="Node" parent="lisp" node_paths=PackedStringArray("reader", "evaluator", "printer")]
+script = ExtResource("5_7mycd")
+reader = NodePath("../read")
+evaluator = NodePath("../eval")
+printer = NodePath("../print")
+
+[node name="read" type="Node" parent="lisp"]
+script = ExtResource("6_5vw27")
+
+[node name="eval" type="Node" parent="lisp"]
+script = ExtResource("7_kek77")
+
+[node name="print" type="Node" parent="lisp"]
+script = ExtResource("8_4c57u")
