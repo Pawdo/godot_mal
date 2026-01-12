@@ -4,7 +4,7 @@ extends TextEdit
 @onready var main: Control = $"../../.."
 
 func _ready() -> void:
-	main.connect("put_line", add_line)
+	SignalHandler.connect("put_line", add_line)
 
 func add_line(line: String) -> void:
 	text += line+'\n'

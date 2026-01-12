@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://8b26ndi6dwlr"]
+[gd_scene load_steps=10 format=3 uid="uid://8b26ndi6dwlr"]
 
 [ext_resource type="Script" uid="uid://6r50x7rx420v" path="res://scripts/main.gd" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://blflbyliyrcgw" path="res://scripts/terminal_display.gd" id="2_1bvp3"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://bahde7b23kpb3" path="res://scripts/lisp/read.gd" id="6_5vw27"]
 [ext_resource type="Script" uid="uid://0ydo0momx0rb" path="res://scripts/lisp/eval.gd" id="7_kek77"]
 [ext_resource type="Script" uid="uid://bm7syftm8ihh4" path="res://scripts/lisp/print.gd" id="8_4c57u"]
+[ext_resource type="Script" uid="uid://ea2m50looo0h" path="res://scripts/signal_handler.gd" id="9_kek77"]
 
 [node name="Main" type="Control" node_paths=PackedStringArray("interpreter", "terminal_display", "terminal_input")]
 layout_mode = 3
@@ -81,3 +82,6 @@ script = ExtResource("7_kek77")
 
 [node name="print" type="Node" parent="lisp"]
 script = ExtResource("8_4c57u")
+
+[node name="SignalHandler" type="Node" parent="."]
+script = ExtResource("9_kek77")

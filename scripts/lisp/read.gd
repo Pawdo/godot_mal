@@ -33,7 +33,7 @@ func parse_list(tokens: TokenBuffer, type: Token.types) -> LispType:
 		var list_item: LispType = parse_form(tokens)
 		if list_item.type == LispType.types.ERROR:
 			return list_item
-		result.push_front(list_item)
+		result.append(list_item)
 	if tokens.is_at_end() or not tokens.consume_expected(end_token):
 		return parse_error(tokens.tokens[-1], "unbalanced brackets")
 	return LispType.make_list(token_to_lisp_types[type], result)
@@ -48,6 +48,8 @@ func parse_atom(tokens: TokenBuffer) -> LispType:
 			tokens.consume_expected(types.SYMBOL)
 			if token.value.is_valid_float() or token.value.is_valid_int():
 				return LispType.make_number(token.value)
+			if token.value.begins_with(':'):
+				return LispType.make_key(token.value)
 			match token.value:
 				"nil":
 					return LispType.make_nil()

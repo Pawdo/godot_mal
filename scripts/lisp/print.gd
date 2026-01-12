@@ -1,9 +1,9 @@
 extends Node
 
-var types := LispType.types
+const types := LispType.types
 func print_to_string(input: LispType, escape_strings = true) -> String:
 	match input.type:
-		types.SYMBOL, types.NUMBER, types.NIL, types.TRUE, types.FALSE:
+		types.SYMBOL, types.NUMBER, types.NIL, types.TRUE, types.FALSE, types.KEY:
 			return input.value
 		types.STRING:
 			if escape_strings:
@@ -33,7 +33,7 @@ func escape_string(input: String) -> String:
 func list_to_string(input: LispType) -> String:
 	var results: Array = []
 	for item in input.get_contents():
-		results.push_front(print_to_string(item))
+		results.append(print_to_string(item))
 	var result: String = " ".join(results)
 	match input.type:
 		types.VECTOR:

@@ -4,8 +4,6 @@ extends Control
 @export var terminal_display: TextEdit
 @export var terminal_input: LineEdit
 
-signal put_line(line: String)
-
 var headless = false
 
 func _ready() -> void:
@@ -24,8 +22,8 @@ func _ready() -> void:
 		terminal_input.connect("text_submitted", input_text_submitted)
 	
 func input_text_submitted(new_text: String) -> void:
-	put_line.emit("user> "+new_text)
-	put_line.emit(interpreter.interpret(new_text))
+	SignalHandler.put_line.emit("user> "+new_text)
+	SignalHandler.put_line.emit(interpreter.interpret(new_text))
 
 func _exit_tree() -> void:
 	print_orphan_nodes()

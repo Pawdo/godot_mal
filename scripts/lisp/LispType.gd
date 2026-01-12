@@ -1,11 +1,13 @@
 class_name LispType
 extends Resource
 
-enum types {SYMBOL, LIST, VECTOR, DICTIONARY, STRING, NUMBER, KEY, NIL, TRUE, FALSE, ERROR}
+enum types {SYMBOL, LIST, VECTOR, DICTIONARY, STRING, NUMBER, KEY, NIL, TRUE, FALSE, ERROR, FUNCTION}
 
 var type: types
 var value: String
 var children: Array[LispType]
+var body: LispType
+var built_in: Callable
 
 func _init(init_type: types, init_value: String) -> void:
 	type = init_type
@@ -42,3 +44,14 @@ static func make_false() -> LispType:
 	
 static func make_error(init_value: String) -> LispType:
 	return LispType.new(types.ERROR, init_value)
+
+static func make_function(name: String, function_body: LispType) -> LispType:
+	var result = LispType.new(types.FUNCTION, name)
+	result.body = function_body
+	return result
+	
+static func make_built_in(name: String, function: Callable) -> LispType:
+	var result = LispType.new(types.FUNCTION, name)
+	result.built_in = function
+	return result
+	
