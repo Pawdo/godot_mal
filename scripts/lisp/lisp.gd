@@ -8,7 +8,7 @@ static var built_ins: Dictionary = {
 	"+": func(a, b): return LispType.make_number(str(make_int(a)+make_int(b))),
 	"-": func(a, b): return LispType.make_number(str(make_int(a)-make_int(b))),
 	"*": func(a, b): return LispType.make_number(str(make_int(a)*make_int(b))),
-	"/": func(a, b): return LispType.make_number(str(make_int(a)/make_int(b))),
+	"/": func(a, b): return LispType.make_number(str(make_int(a)/make_int(b))) if make_int(b) != 0 else LispType.make_error("divide by zero"),
 	"%": func(a, b): return LispType.make_number(str(make_int(a)%make_int(b))),
 }
 

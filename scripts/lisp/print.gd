@@ -12,7 +12,7 @@ func print_to_string(input: LispType, escape_strings = true) -> String:
 		types.LIST, types.VECTOR, types.DICTIONARY:
 			return list_to_string(input)
 		types.ERROR:
-			return "ERROR: "+input.value
+			return "ERROR: "+input.error
 	return "not implemented"
 		
 func escape_string(input: String) -> String:
@@ -32,7 +32,9 @@ func escape_string(input: String) -> String:
 
 func list_to_string(input: LispType) -> String:
 	var results: Array = []
-	for item in input.get_contents():
+	for item: LispType in input.get_contents():
+		if item.error:
+			return "Error: "+item.error
 		results.append(print_to_string(item))
 	var result: String = " ".join(results)
 	match input.type:

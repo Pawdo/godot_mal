@@ -77,8 +77,9 @@ printer = NodePath("../print")
 [node name="read" type="Node" parent="lisp"]
 script = ExtResource("6_5vw27")
 
-[node name="eval" type="Node" parent="lisp"]
+[node name="eval" type="Node" parent="lisp" node_paths=PackedStringArray("printer")]
 script = ExtResource("7_kek77")
+printer = NodePath("../print")
 
 [node name="print" type="Node" parent="lisp"]
 script = ExtResource("8_4c57u")

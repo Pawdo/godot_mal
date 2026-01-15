@@ -12,6 +12,8 @@ func parse_error(token: Token, message: String) -> LispType:
 	return LispType.make_error("@%s: Parse error - %s" % [str(token.location), message])
 	
 func parse_form(tokens: TokenBuffer) -> LispType:
+	if tokens.is_at_end():
+		return parse_error(tokens.tokens[-1], "unexpected end of line")
 	var token: Token = tokens.peek()
 	match token.type:
 		Token.types.OPENPARENS, Token.types.OPENBRACE, Token.types.OPENBRACKET:
@@ -31,7 +33,7 @@ func parse_list(tokens: TokenBuffer, type: Token.types) -> LispType:
 	var result: Array[LispType]
 	while not tokens.is_at_end() and tokens.peek().type != end_token:
 		var list_item: LispType = parse_form(tokens)
-		if list_item.type == LispType.types.ERROR:
+		if list_item.error:
 			return list_item
 		result.append(list_item)
 	if tokens.is_at_end() or not tokens.consume_expected(end_token):
@@ -44,7 +46,7 @@ func parse_atom(tokens: TokenBuffer) -> LispType:
 	if token.type in [types.SPLICEUNQUOTE, types.QUOTE, types.QUASIQUOTE, types.UNQUOTE, types.DEREF, types.WITHMETA]:
 		return parse_quotes(tokens)
 	match token.type:
-		types.SYMBOL:
+		types.SYMBOL, types.UNKNOWN:
 			tokens.consume_expected(types.SYMBOL)
 			if token.value.is_valid_float() or token.value.is_valid_int():
 				return LispType.make_number(token.value)
@@ -96,7 +98,7 @@ func parse_quotes(tokens: TokenBuffer) -> LispType:
 	var quote := tokens.peek()
 	tokens.consume_expected(quote.type)
 	var item := parse_form(tokens)
-	if item.type == LispType.types.ERROR:
+	if item.error:
 		return item
 	var function: LispType = LispType.make_symbol(Token.quote_types[quote.type])
 	return LispType.make_list(LispType.types.LIST, [item, function])

@@ -8,6 +8,9 @@ bin/step1_read_print.x86_64:
 	
 bin/step2_eval.x86_64:
 	godot --headless --path . --export-release "step2_eval" bin/step2_eval.x86_64
+
+bin/step3_env.x86_64:
+	godot --headless --path . --export-release "step3_env" bin/step3_env.x86_64
 	
 clean:
 	rm -r bin/*

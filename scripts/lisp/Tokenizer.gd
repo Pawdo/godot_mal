@@ -17,7 +17,8 @@ const token_patterns = {
 	Token.types.OPENBRACKET: r'\{',
 	Token.types.CLOSEBRACKET: r'\}',
 	Token.types.STRING: r'"(?:\\.|[^\\"])*"?',
-	Token.types.SYMBOL: r'[^;,\[\]{}()\'`~^@\s]+'
+	Token.types.SYMBOL: r'[^;,\[\]{}()\'`~^@\s]+',
+	Token.types.UNKNOWN: r'.+'
 }
 
 static var regex_tokenizer: RegEx
